@@ -2,6 +2,7 @@ package com.example.demo.user.service;
 
 import com.example.demo.common.exception.CertificationCodeNotMatchedException;
 import com.example.demo.common.exception.ResourceNotFoundException;
+import com.example.demo.user.domain.User;
 import com.example.demo.user.domain.UserStatus;
 import com.example.demo.user.domain.UserCreate;
 import com.example.demo.user.domain.UserUpdate;
@@ -39,7 +40,7 @@ class UserServiceTest {
         //given
         String email = "kgh2120@naver.com";
         //when
-        UserEntity sut = userService.getByEmail(email);
+        User sut = userService.getByEmail(email);
         //then
         assertThat(sut.getStatus()).isEqualTo(UserStatus.ACTIVE);
     } 
@@ -58,7 +59,7 @@ class UserServiceTest {
         //given
         long id = 10L;
         //when
-        UserEntity sut = userService.getById(id);
+        User sut = userService.getById(id);
         //then
         assertThat(sut.getId()).isEqualTo(id);
     }
@@ -84,7 +85,7 @@ class UserServiceTest {
                 .build();
         BDDMockito.doNothing().when(javaMailSender).send(any(SimpleMailMessage.class));
         //when
-        UserEntity sut = userService.createUser(userCreate);
+        User sut = userService.createUser(userCreate);
         //then
         assertThat(sut.getId()).isNotNull();
         assertThat(sut.getStatus()).isEqualTo(UserStatus.PENDING);
@@ -103,8 +104,8 @@ class UserServiceTest {
                 .build();
         BDDMockito.doNothing().when(javaMailSender).send(any(SimpleMailMessage.class));
         //when
-        UserEntity sut = userService.updateUser(10L, userUpdate);
-        //then
+        User sut = userService.updateUser(10L, userUpdate);
+        //User
         assertThat(sut.getAddress()).isEqualTo(address);
         assertThat(sut.getNickname()).isEqualTo(nickname);
 //        assertThat(sut.getCertificationCode()).isEqualTo("??");
@@ -116,7 +117,7 @@ class UserServiceTest {
         //when
         userService.login(10L);
         //then
-        UserEntity sut = userService.getById(10L);
+        User sut = userService.getById(10L);
         assertThat(sut.getLastLoginAt()).isGreaterThan(0L);
         //  assertThat(sut.getLastLoginAt()).isEqualTo(); FIXME
     }
@@ -128,7 +129,7 @@ class UserServiceTest {
         //when
         userService.verifyEmail(id, certificationCode);
         //then
-        UserEntity sut = userService.getById(id);
+        User sut = userService.getById(id);
         assertThat(sut.getStatus()).isEqualTo(UserStatus.ACTIVE);
     }
     @Test

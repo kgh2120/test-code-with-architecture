@@ -36,7 +36,7 @@ class UserControllerTest {
         UserEntity userEntity = new UserEntity();
         userEntity.setId(1L);
         BDDMockito.when(userService.getById(anyLong()))
-                        .thenReturn(userEntity);
+                        .thenReturn(userEntity.toModel());
 
         //given
         mockMvc.perform(MockMvcRequestBuilders.get("/api/users/1"))

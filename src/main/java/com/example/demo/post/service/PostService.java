@@ -1,12 +1,15 @@
 package com.example.demo.post.service;
 
 import com.example.demo.common.exception.ResourceNotFoundException;
+import com.example.demo.post.domain.Post;
 import com.example.demo.post.domain.PostCreate;
 import com.example.demo.post.domain.PostUpdate;
 import com.example.demo.post.infrastructure.PostEntity;
 import com.example.demo.post.infrastructure.PostJpaRepository;
 import com.example.demo.post.service.port.PostRepository;
+import com.example.demo.user.domain.User;
 import com.example.demo.user.infrastructure.UserEntity;
+
 import java.time.Clock;
 
 import com.example.demo.user.service.UserService;
@@ -20,23 +23,19 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserService userService;
 
-    public PostEntity getPostById(long id) {
+    public Post getPostById(long id) {
         return postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Posts", id));
     }
 
-    public PostEntity createPost(PostCreate postCreate) {
-        UserEntity userEntity = userService.getById(postCreate.getWriterId());
-        PostEntity postEntity = new PostEntity();
-        postEntity.setWriter(userEntity);
-        postEntity.setContent(postCreate.getContent());
-        postEntity.setCreatedAt(Clock.systemUTC().millis());
-        return postRepository.save(postEntity);
+    public Post createPost(PostCreate postCreate) {
+        User writer = userService.getById(postCreate.getWriterId());
+        Post post = Post.from(postCreate, writer);
+        return postRepository.save(post);
     }
 
-    public PostEntity updatePost(long id, PostUpdate postUpdate) {
-        PostEntity postEntity = getPostById(id);
-        postEntity.setContent(postUpdate.getContent());
-        postEntity.setModifiedAt(Clock.systemUTC().millis());
-        return postRepository.save(postEntity);
+    public Post updatePost(long id, PostUpdate postUpdate) {
+        Post post = getPostById(id);
+        post = post.update(postUpdate);
+        return postRepository.save(post);
     }
 }
