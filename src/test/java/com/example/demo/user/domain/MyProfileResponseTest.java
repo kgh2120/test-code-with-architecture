@@ -9,5 +9,6 @@ class MyProfileResponseTest {
     @Test
     void User로_응답객체를_생성할_수_있다(){
 
+
     }
 }
