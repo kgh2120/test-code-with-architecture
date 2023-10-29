@@ -8,10 +8,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UserResponseTest {
+class MyProfileResponseTest {
 
     @Test
-    void User로_응답을_생성할_수_있다(){
+    void User로_응답객체를_생성할_수_있다(){
+
         // given
         String certificationCode = UUID.randomUUID().toString();
         User user = User.builder()
@@ -26,16 +27,17 @@ class UserResponseTest {
 
         //when
 
-        UserResponse sut = UserResponse.from(user);
+        MyProfileResponse sut = MyProfileResponse.from(user);
 
         // then
 
         Assertions.assertThat(sut.getId()).isEqualTo(1L);
         Assertions.assertThat(sut.getEmail()).isEqualTo("foo@bar.com");
         Assertions.assertThat(sut.getNickname()).isEqualTo("foobar");
+        Assertions.assertThat(sut.getAddress()).isEqualTo("seoul");
         Assertions.assertThat(sut.getStatus()).isEqualTo(UserStatus.ACTIVE);
         Assertions.assertThat(sut.getLastLoginAt()).isEqualTo(100L);
 
-    }
 
+    }
 }
