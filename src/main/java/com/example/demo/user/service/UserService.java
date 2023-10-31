@@ -14,10 +14,12 @@ import java.time.Clock;
 import java.util.UUID;
 
 import com.example.demo.user.service.port.UserRepository;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Builder
 @Service
 @RequiredArgsConstructor
 public class UserService {

@@ -1,4 +1,4 @@
-package com.example.demo.user.controller;
+package com.example.demo.medium;
 
 import com.example.demo.user.infrastructure.UserEntity;
 import com.example.demo.user.service.UserService;
